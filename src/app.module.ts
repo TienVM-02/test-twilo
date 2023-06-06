@@ -6,6 +6,7 @@ import { ConfigModule } from '@nestjs/config';
 import { UserModule } from './modules/users/user.module';
 import * as Joi from '@hapi/joi';
 import { SmsModule } from './providers/sms_twillo/sms.module';
+import { EmailModule } from './providers/email_twilio/email.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { SmsModule } from './providers/sms_twillo/sms.module';
     MySQLModule,
     UserModule,
     SmsModule,
+    EmailModule,
   ],
   controllers: [AppController],
   providers: [AppService],

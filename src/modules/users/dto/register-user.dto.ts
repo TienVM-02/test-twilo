@@ -5,6 +5,9 @@ export class RegisterUser {
   @ApiProperty()
   fullName: string;
 
-  @ApiProperty()
+  @ApiProperty({ nullable: true })
   phone: string;
+
+  @ApiProperty({ nullable: true })
+  email: string;
 }

@@ -9,7 +9,7 @@ import { User } from 'src/modules/users/entities/user.entity';
       host: 'localhost',
       port: 3306,
       username: 'root',
-      password: 'Admin123@',
+      password: 'Admin@123',
       database: 'test_twilo',
       entities: [__dirname + '/../modules/**/*.entity.{ts,js}'],
       synchronize: true,

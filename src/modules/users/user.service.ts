@@ -23,17 +23,10 @@ export class UserService extends BaseService<User> {
   }
 
   async registerUser(dto: RegisterUser): Promise<string> {
-    let otp = '';
-    let counter = 0;
-    while (counter < 6) {
-      otp += '0123456789'.charAt(Math.floor(Math.random() * 10));
-      counter += 1;
-    }
-
     const newUser = await this.userRepository.save({
       fullName: dto.fullName,
       phone: dto.phone,
-      otp: otp,
+      email: dto.email,
     });
     return 'newUser';
   }
@@ -50,15 +43,19 @@ export class UserService extends BaseService<User> {
     return 'verify';
   }
 
-  async confirmUser(phone: string) {
-    const userFind = await this.userRepository.findOne({
-      where: { phone: phone },
-    });
+  async confirmUser(phoneOrEmail: string) {
+    const userFind = await this.userRepository
+      .createQueryBuilder('users')
+      .where('phone = :phone', { phone: phoneOrEmail })
+      .orWhere('email = :email', { email: phoneOrEmail })
+      .getOne();
+
     if (!userFind)
       throw new HttpException(
-        `The phone ${phone} not existed`,
+        `The user ${phoneOrEmail} not existed`,
         HttpStatus.NOT_FOUND,
       );
+    console.log(userFind);
     userFind.status = UserEnum.ACTIVE;
     await this.userRepository.save(userFind);
     return 'confirm';
